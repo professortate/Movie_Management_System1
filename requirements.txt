@@ -1,0 +1,9 @@
+# Web server
+flask==2.3.3
+gunicorn==21.2.0
+
+# Database (adjust based on your setup)
+sqlalchemy==2.0.20
+
+# Other dependencies
+python-dotenv==1.0.0
