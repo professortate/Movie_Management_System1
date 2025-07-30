@@ -1,18 +1,13 @@
 from flask import Flask, render_template
 import sqlite3
 import os
-print("Current working directory:", os.getcwd())
-print("Does 'templates' folder exist?", os.path.exists('templates'))
-print("Contents of current directory:", os.listdir())
-if os.path.exists('templates'):
-    print("Contents of 'templates' folder:", os.listdir('templates'))
-else:
-    print("'templates' folder not found!")
 
 app = Flask(__name__)
 
 def get_db_connection():
-    conn = sqlite3.connect('movie1.db')
+    # Use absolute path to ensure database is found in production
+    db_path = os.path.join(os.path.dirname(__file__), 'movie1.db')
+    conn = sqlite3.connect(db_path)
     conn.row_factory = sqlite3.Row
     return conn
 
@@ -33,4 +28,6 @@ def index():
     return render_template('index.html', movies=movies)
 
 if __name__ == '__main__':
-    app.run(debug=True)
+    # For production deployment - use environment variable for port
+    port = int(os.environ.get("PORT", 5000))
+    app.run(host='0.0.0.0', port=port)
